@@ -3,235 +3,604 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramshath M M | Offensive Security Engineer</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<title>Ramshath M M — Offensive Security Engineer & Penetration Tester</title>
+<meta name="description" content="Ramshath M M is an Information Security Analyst specializing in Web, API, Mobile, and Network penetration testing. Published 3 CVEs, acknowledged by Apple, Nokia, Lenovo, LG, and Philips.">
+<meta name="author" content="Ramshath M M">
+<meta name="keywords" content="Ramshath M M, penetration tester, offensive security, VAPT, bug bounty, CEH, eWPTX, CVE, web security, API security, mobile security">
+
+<!-- Open Graph / social -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ramshath M M — Offensive Security Engineer">
+<meta property="og:description" content="Information Security Analyst | Web, API, Mobile & Network Pentesting | 3 CVEs | Acknowledged by Apple, Nokia, Lenovo, LG, Philips.">
+<meta property="og:url" content="https://ram-shu.github.io/porto/">
+<meta property="og:image" content="https://ram-shu.github.io/porto/assets/images/dp_280x280.jpg">
+<meta name="twitter:card" content="summary">
+
+<link rel="icon" href="assets/images/dp_280x280.jpg" type="image/jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <style>
-body { margin:0; font-family:'Inter'; background:#020617; color:#e2e8f0; overflow-x:hidden; }
+:root{
+  --bg:#060a13;
+  --bg-2:#0b1322;
+  --surface:rgba(15,23,42,0.55);
+  --surface-solid:#0f1827;
+  --border:rgba(56,189,248,0.18);
+  --border-strong:rgba(56,189,248,0.4);
+  --text:#e6edf6;
+  --muted:#93a4bd;
+  --accent:#38bdf8;
+  --accent-2:#22d3a7;
+  --accent-deep:#0ea5e9;
+  --danger:#f87171;
+  --shadow:0 18px 50px -20px rgba(2,8,23,0.9);
+  --maxw:1120px;
+}
 
-/* Animated grid */
-body::before {
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.65;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Animated background */
+body::before{
   content:"";
   position:fixed;
-  width:200%; height:200%;
-  background: radial-gradient(circle, rgba(56,189,248,0.12) 1px, transparent 1px);
-  background-size:40px 40px;
-  animation: moveBg 25s linear infinite;
+  inset:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(circle, rgba(56,189,248,0.10) 1px, transparent 1px);
+  background-size:42px 42px;
+  animation:moveBg 30s linear infinite;
+  z-index:-2;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(60% 50% at 80% 0%, rgba(34,211,167,0.10), transparent 70%),
+    radial-gradient(50% 50% at 10% 10%, rgba(56,189,248,0.12), transparent 70%);
   z-index:-1;
+  pointer-events:none;
 }
-@keyframes moveBg { from {transform:translate(0,0);} to {transform:translate(-300px,-300px);} }
+@keyframes moveBg{from{transform:translate(0,0)}to{transform:translate(-300px,-300px)}}
 
-header { text-align:center; padding:100px 20px; }
-h1 { font-family:'Orbitron'; font-size:55px; }
-.typing { color:#38bdf8; font-size:18px; margin-top:15px; height:22px; }
-nav a { margin:0 15px; color:#38bdf8; text-decoration:none; position:relative; }
-nav a::after { content:""; position:absolute; left:0; bottom:-4px; width:0%; height:2px; background:#38bdf8; transition:0.3s; }
-nav a:hover::after { width:100%; }
+a{color:inherit}
+img{max-width:100%;display:block}
 
-.cta { margin-top:25px; display:inline-block; padding:12px 30px; background:linear-gradient(90deg,#38bdf8,#0ea5e9); color:#020617; border-radius:30px; text-decoration:none; font-weight:600; }
-.cta:hover { box-shadow:0 0 25px #38bdf8; transform:translateY(-2px); }
-.cta:hover { box-shadow:0 0 25px #38bdf8; }
+.container{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.accent{color:var(--accent)}
+.mono{font-family:'JetBrains Mono',monospace}
 
-section { padding:80px 20px; max-width:1100px; margin:auto; opacity:0; transform:translateY(40px); transition:0.6s; }
-section.visible { opacity:1; transform:translateY(0); }
-
-h2 { font-family:'Orbitron'; color:#38bdf8; }
-.grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-
-.card {
-  background:rgba(15,23,42,0.6);
-  padding:25px;
-  border-radius:16px;
-  border:1px solid rgba(56,189,248,0.2);
-  backdrop-filter: blur(12px);
-  transition:0.4s;
+/* ---------- Navbar ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(14px);
+  background:rgba(6,10,19,0.72);
+  border-bottom:1px solid var(--border);
 }
-.card:hover {
-  transform:translateY(-8px) scale(1.03);
-  box-shadow:0 0 35px rgba(56,189,248,0.35);
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:'Space Grotesk';font-weight:700;font-size:19px;letter-spacing:.5px;text-decoration:none}
+.logo .dot{color:var(--accent)}
+.nav-links{display:flex;gap:6px;align-items:center}
+.nav-links a{
+  text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;
+  padding:8px 12px;border-radius:8px;transition:.2s;
+}
+.nav-links a:hover{color:var(--text);background:rgba(56,189,248,0.08)}
+.nav-cta{
+  margin-left:8px;color:var(--bg)!important;font-weight:600!important;
+  background:linear-gradient(90deg,var(--accent),var(--accent-deep));
+}
+.nav-cta:hover{box-shadow:0 0 22px rgba(56,189,248,0.45)}
+.burger{display:none;background:none;border:0;color:var(--text);font-size:26px;cursor:pointer}
+
+/* ---------- Hero ---------- */
+.hero{padding:90px 0 70px;display:grid;grid-template-columns:1.25fr .9fr;gap:50px;align-items:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--accent-2);
+  border:1px solid var(--border);background:var(--surface);
+  padding:6px 14px;border-radius:999px;margin-bottom:22px;
+}
+.eyebrow .pulse{width:8px;height:8px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 0 0 rgba(34,211,167,.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,211,167,.5)}70%{box-shadow:0 0 0 10px rgba(34,211,167,0)}100%{box-shadow:0 0 0 0 rgba(34,211,167,0)}}
+.hero h1{font-family:'Space Grotesk';font-size:clamp(38px,6vw,64px);line-height:1.05;margin:0 0 14px;font-weight:700}
+.hero .role{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:clamp(16px,2.5vw,21px);min-height:30px;margin-bottom:20px}
+.hero .role .caret{color:var(--accent-2);animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.hero p.lead{color:var(--muted);font-size:17px;max-width:560px;margin:0 0 30px}
+.btns{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:34px}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:600;font-size:15px;
+  padding:13px 26px;border-radius:12px;transition:.25s;cursor:pointer;border:1px solid transparent;
+}
+.btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-deep));color:var(--bg)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px -8px rgba(56,189,248,.6)}
+.btn-ghost{border-color:var(--border-strong);color:var(--text);background:var(--surface)}
+.btn-ghost:hover{border-color:var(--accent);background:rgba(56,189,248,.08)}
+.hero-badges{display:flex;flex-wrap:wrap;gap:10px}
+.hero-badges span{
+  font-size:13px;color:var(--text);background:var(--surface);
+  border:1px solid var(--border);padding:8px 14px;border-radius:999px;
 }
 
-.skills span {
-  display:inline-block;
-  padding:8px 14px;
-  margin:6px;
-  border-radius:20px;
-  border:1px solid rgba(56,189,248,0.3);
+.hero-photo{position:relative;justify-self:center}
+.hero-photo .ring{
+  position:relative;width:300px;height:300px;border-radius:50%;
+  padding:6px;background:conic-gradient(from 180deg,var(--accent),var(--accent-2),var(--accent-deep),var(--accent));
+  animation:spin 8s linear infinite;box-shadow:var(--shadow);
 }
-.skills span:hover { background:#38bdf8; color:#020617; }
-
-
-.stat { text-align:center; }
-.stat h3 { font-size:30px; color:#38bdf8; }
-
-.link-btn {
-  display:inline-block;
-  margin-top:10px;
-  color:#38bdf8;
-  text-decoration:none;
-  font-size:14px;
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-photo .ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;animation:spin 8s linear infinite reverse}
+.hero-photo .chip{
+  position:absolute;background:var(--surface-solid);border:1px solid var(--border-strong);
+  padding:10px 16px;border-radius:12px;font-size:13px;font-weight:600;box-shadow:var(--shadow);
 }
+.hero-photo .chip.c1{top:6px;left:-26px}
+.hero-photo .chip.c2{bottom:18px;right:-30px}
+.hero-photo .chip .big{display:block;font-size:20px;color:var(--accent);font-family:'Space Grotesk'}
 
-.hero-badges { margin-top:30px; display:flex; justify-content:center; flex-wrap:wrap; gap:10px; }
-.hero-badges span { background:rgba(56,189,248,0.1); border:1px solid rgba(56,189,248,0.3); padding:8px 14px; border-radius:20px; font-size:13px; }
+/* ---------- Sections ---------- */
+section{padding:78px 0;scroll-margin-top:70px}
+.section-head{margin-bottom:44px;max-width:680px}
+.section-head .kicker{font-family:'JetBrains Mono',monospace;color:var(--accent-2);font-size:13px;letter-spacing:2px;text-transform:uppercase}
+.section-head h2{font-family:'Space Grotesk';font-size:clamp(28px,4vw,40px);margin:10px 0 12px;font-weight:700}
+.section-head p{color:var(--muted);margin:0;font-size:16px}
 
-footer { text-align:center; padding:30px; border-top:1px solid rgba(56,189,248,0.2); }
+.reveal{opacity:0;transform:translateY(34px);transition:.7s cubic-bezier(.2,.7,.2,1)}
+.reveal.visible{opacity:1;transform:none}
+
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  padding:26px;backdrop-filter:blur(10px);transition:.3s;
+}
+.card:hover{transform:translateY(-6px);border-color:var(--border-strong);box-shadow:var(--shadow)}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stat{text-align:center;padding:30px 18px}
+.stat .num{font-family:'Space Grotesk';font-size:clamp(30px,5vw,46px);font-weight:700;
+  background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.stat .label{color:var(--muted);font-size:14px;margin-top:6px}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:28px;align-items:start}
+.about-grid p{color:var(--muted);font-size:16px}
+.about-grid p strong{color:var(--text)}
+.facts{list-style:none;padding:0;margin:0;display:grid;gap:14px}
+.facts li{display:flex;gap:12px;align-items:flex-start;font-size:15px}
+.facts li .ic{color:var(--accent);flex:none;margin-top:2px}
+.facts li span.k{color:var(--muted);min-width:96px;display:inline-block}
+
+/* Timeline */
+.timeline{position:relative;margin-left:8px;padding-left:34px}
+.timeline::before{content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--accent),transparent)}
+.tl-item{position:relative;margin-bottom:30px}
+.tl-item::before{content:"";position:absolute;left:-34px;top:6px;width:16px;height:16px;border-radius:50%;
+  background:var(--bg);border:3px solid var(--accent);box-shadow:0 0 0 4px rgba(56,189,248,.12)}
+.tl-item .when{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--accent-2)}
+.tl-item h3{margin:6px 0 2px;font-family:'Space Grotesk';font-size:20px}
+.tl-item .org{color:var(--accent);font-size:14.5px;margin-bottom:10px}
+.tl-item ul{margin:0;padding-left:18px;color:var(--muted);font-size:14.5px}
+.tl-item ul li{margin-bottom:6px}
+
+/* Skills */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.skill-cat h3{font-family:'Space Grotesk';font-size:17px;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+.skill-cat h3 .ic{color:var(--accent)}
+.tags{display:flex;flex-wrap:wrap;gap:9px}
+.tags span{font-size:13.5px;padding:7px 13px;border-radius:9px;background:rgba(56,189,248,.06);
+  border:1px solid var(--border);color:var(--text);transition:.2s;font-family:'JetBrains Mono',monospace}
+.tags span:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+
+/* Cards grid generic */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+
+/* CVE */
+.cve .tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--danger);
+  border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.08);padding:4px 10px;border-radius:6px;margin-bottom:12px}
+.cve h3{font-family:'JetBrains Mono',monospace;font-size:19px;margin:0 0 6px}
+.cve p{color:var(--muted);font-size:14px;margin:0 0 16px}
+
+/* Publications */
+.pub{display:flex;flex-direction:column;height:100%}
+.pub .meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent-2);margin-bottom:10px}
+.pub h3{font-family:'Space Grotesk';font-size:18px;margin:0 0 10px;line-height:1.3}
+.pub p{color:var(--muted);font-size:14px;flex:1;margin:0 0 16px}
+
+.link{display:inline-flex;align-items:center;gap:6px;color:var(--accent);text-decoration:none;font-size:14px;font-weight:600;transition:.2s}
+.link:hover{gap:11px}
+
+/* Certs */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.cert{display:flex;gap:14px;align-items:center;padding:18px 20px}
+.cert .badge{flex:none;width:46px;height:46px;border-radius:11px;display:grid;place-items:center;
+  background:rgba(56,189,248,.1);border:1px solid var(--border-strong);font-size:20px}
+.cert .name{font-weight:600;font-size:15px}
+.cert .issuer{color:var(--muted);font-size:13px}
+
+/* Recognitions */
+.brands{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.brands span{font-family:'Space Grotesk';font-weight:600;font-size:18px;color:var(--muted);
+  padding:14px 26px;border:1px solid var(--border);border-radius:12px;background:var(--surface);transition:.3s}
+.brands span:hover{color:var(--text);border-color:var(--border-strong);transform:translateY(-3px)}
+
+/* Contact */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center}
+.contact-list{list-style:none;padding:0;margin:0;display:grid;gap:16px}
+.contact-list a{display:flex;gap:14px;align-items:center;text-decoration:none;color:var(--text);
+  padding:16px 20px;border:1px solid var(--border);border-radius:12px;background:var(--surface);transition:.25s}
+.contact-list a:hover{border-color:var(--accent);transform:translateX(4px);background:rgba(56,189,248,.06)}
+.contact-list .ic{width:42px;height:42px;flex:none;border-radius:10px;display:grid;place-items:center;
+  background:rgba(56,189,248,.1);font-size:18px;color:var(--accent)}
+.contact-list .k{font-size:12px;color:var(--muted)}
+.contact-list .v{font-weight:600;font-size:15px}
+.contact-cta{text-align:center;padding:40px 28px}
+.contact-cta h3{font-family:'Space Grotesk';font-size:24px;margin:0 0 10px}
+.contact-cta p{color:var(--muted);margin:0 0 22px}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:34px 0;text-align:center;color:var(--muted);font-size:14px}
+footer .socials{display:flex;gap:14px;justify-content:center;margin-bottom:16px}
+footer .socials a{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:18px;
+  border:1px solid var(--border);color:var(--text);text-decoration:none;transition:.25s}
+footer .socials a:hover{background:var(--accent);color:var(--bg);transform:translateY(-3px)}
+
+/* SVG icon sizing */
+.svg-ic{width:1em;height:1em;vertical-align:-.125em;fill:currentColor}
+
+/* Responsive */
+@media(max-width:880px){
+  .hero{grid-template-columns:1fr;text-align:center;padding-top:56px}
+  .hero .eyebrow{margin-inline:auto}
+  .btns,.hero-badges{justify-content:center}
+  .hero p.lead{margin-inline:auto}
+  .hero-photo{order:-1}
+  .about-grid,.contact-wrap{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-links{
+    position:fixed;top:66px;right:0;left:0;flex-direction:column;align-items:stretch;gap:4px;
+    background:rgba(6,10,19,.97);backdrop-filter:blur(14px);padding:14px 24px 22px;
+    border-bottom:1px solid var(--border);transform:translateY(-130%);transition:.35s;
+  }
+  .nav-links.open{transform:translateY(0)}
+  .nav-links a{padding:12px}
+  .nav-cta{margin-left:0;text-align:center}
+  .burger{display:block}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .hero-photo .ring{width:230px;height:230px}
+  .hero-photo .chip.c1{left:-8px}
+  .hero-photo .chip.c2{right:-8px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none}
+}
 </style>
 </head>
 
 <body>
 
-<header>
-<h1>RAMSHATH M M</h1>
-<div class="typing" id="typing"></div>
-
-<nav>
-<a href="#about">About</a>
-<a href="#stats">Stats</a>
-<a href="#projects">Projects</a>
-<a href="#experience">Experience</a>
-<a href="#skills">Skills</a>
-<a href="#research">Research</a>
-<a href="#contact">Contact</a>
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="logo">RAMSHATH<span class="dot">.</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#certs">Certifications</a>
+      <a href="#research">Research</a>
+      <a href="#writing">Writing</a>
+      <a href="#contact" class="nav-cta">Contact</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Toggle menu">&#9776;</button>
+  </div>
 </nav>
 
-<a class="cta" href="#contact">Hire Me</a>
-
-<div class="hero-badges">
-  <span>🔐 100+ Engagements</span>
-  <span>🏆 20+ Recognitions</span>
-  <span>📜 3 CVEs</span>
-  <span>⚔️ Bug Bounty Hunter</span>
-</div>
+<!-- ============ HERO ============ -->
+<header id="top" class="container hero">
+  <div>
+    <span class="eyebrow"><span class="pulse"></span> Available for security engagements</span>
+    <h1>Ramshath M&nbsp;M</h1>
+    <div class="role mono"><span id="typing"></span><span class="caret">_</span></div>
+    <p class="lead">Information Security Analyst breaking applications before attackers do — specialized in Web, API, Mobile &amp; Network penetration testing, with published CVEs and recognition from global tech leaders.</p>
+    <div class="btns">
+      <a class="btn btn-primary" href="#contact">Get in touch &rarr;</a>
+      <a class="btn btn-ghost" href="assets/RamshathMM.pdf" target="_blank" rel="noopener">Download CV</a>
+    </div>
+    <div class="hero-badges">
+      <span>🔐 100+ VAPT Engagements</span>
+      <span>🏆 20+ Recognitions</span>
+      <span>📜 3 Published CVEs</span>
+      <span>⚔️ Bug Bounty Hunter</span>
+    </div>
+  </div>
+  <div class="hero-photo">
+    <div class="ring"><img src="assets/images/dp_280x280.jpg" alt="Ramshath M M"></div>
+    <div class="chip c1"><span class="big">CEH</span>eWPTX · eJPT</div>
+    <div class="chip c2"><span class="big">3</span>CVEs Published</div>
+  </div>
 </header>
 
-<section id="stats">
-<h2>Impact</h2>
-<div class="grid">
-<div class="card stat"><h3>100+</h3><p>VAPT Engagements</p></div>
-<div class="card stat"><h3>20+</h3><p>Organizations Recognized</p></div>
-<div class="card stat"><h3>3</h3><p>Published CVEs</p></div>
-<div class="card stat"><h3>50+</h3><p>Labs Solved</p></div>
-</div>
+<main>
+
+<!-- ============ STATS ============ -->
+<section id="stats" class="container reveal">
+  <div class="stats-grid">
+    <div class="card stat"><div class="num">100+</div><div class="label">VAPT Engagements</div></div>
+    <div class="card stat"><div class="num">20+</div><div class="label">Orgs Acknowledged</div></div>
+    <div class="card stat"><div class="num">3</div><div class="label">Published CVEs</div></div>
+    <div class="card stat"><div class="num">50+</div><div class="label">HTB / THM Machines</div></div>
+  </div>
 </section>
 
-<section id="projects">
-<h2>Featured Work</h2>
-<div class="grid">
-<div class="card">
-<h3>Cloud Metadata SSRF</h3>
-<p>Attack, detection & mitigation strategy.</p>
-<a class="link-btn" href="https://medium.com/system-weakness/the-cat-and-mouse-game-of-a-cloud-metadata-ssrf-vulnerability-6efbb26e216a">View Writeup →</a>
-</div>
-<div class="card">
-<h3>XSS to RCE Chain</h3>
-<p>SVG upload exploit leading to remote execution.</p>
-<a class="link-btn" href="https://medium.com/@ramshath1999/beyond-the-popup-turning-stored-xss-into-remote-code-execution-483839d06f58">View Writeup →</a>
-</div>
-<div class="card">
-<h3>WhatsApp Bypass</h3>
-<p>Security analysis of view-once media bypass.</p>
-<a class="link-btn" href="https://medium.com/@ramshath1999/how-i-discovered-a-bypass-in-whatsapps-view-once-feature-aea3bdf6405a">View Writeup →</a>
-</div>
-</div>
+<!-- ============ ABOUT ============ -->
+<section id="about" class="container reveal">
+  <div class="section-head">
+    <div class="kicker">// whoami</div>
+    <h2>About Me</h2>
+    <p>Offensive-minded security analyst with a track record across enterprise environments.</p>
+  </div>
+  <div class="about-grid">
+    <div>
+      <p>I'm an <strong>Information Security Analyst</strong> with hands-on experience in Web, API, Mobile, and Network penetration testing across enterprise environments. My work spans <strong>manual testing, exploit validation, remediation verification, and leading VAPT engagements</strong> for multiple clients.</p>
+      <p>Beyond client work, I'm actively involved in <strong>vulnerability research, CVE publication, and bug bounty programs</strong> — turning real-world exploitation experience into published research and responsible disclosures. I've been acknowledged by 20+ organizations including Apple, Nokia, Lenovo, LG, and Philips.</p>
+    </div>
+    <div class="card">
+      <ul class="facts">
+        <li><span class="ic">📍</span><span><span class="k">Location</span> Kerala, India</span></li>
+        <li><span class="ic">💼</span><span><span class="k">Role</span> Information Security Analyst</span></li>
+        <li><span class="ic">🎯</span><span><span class="k">Focus</span> Web · API · Mobile · Network</span></li>
+        <li><span class="ic">🎓</span><span><span class="k">Education</span> B.Com (2016–2019)</span></li>
+        <li><span class="ic">💰</span><span><span class="k">Bug Bounty</span> Earnings in lakhs</span></li>
+        <li><span class="ic">🌐</span><span><span class="k">Languages</span> English, Malayalam, Hindi</span></li>
+      </ul>
+    </div>
+  </div>
 </section>
 
-<section id="about">
-<h2>About Me</h2>
-<div class="card">
-<p>I break applications before attackers do. Specialized in Web, API, Mobile & Network Pentesting with real-world exploitation experience and CVE contributions.</p>
-</div>
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience" class="container reveal">
+  <div class="section-head">
+    <div class="kicker">// career</div>
+    <h2>Experience</h2>
+    <p>Five+ years across security consulting and infrastructure support.</p>
+  </div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="when">Nov 2023 — Present</div>
+      <h3>Information Security Analyst</h3>
+      <div class="org">Astra Securities · Remote, India</div>
+      <ul>
+        <li>Led and mentored junior analysts across VAPT engagements — allocating tasks, reviewing findings, and ensuring high-quality deliverables.</li>
+        <li>Conducted pentesting across web apps, mobile browsers, Android and iOS in 100+ client security engagements.</li>
+        <li>Performed internal and external network vulnerability assessments and firewall rulebase reviews (ManageEngine Firewall Analyzer).</li>
+        <li>Provided secure-coding recommendations, tracked remediation, and performed re-testing to ensure effective closure.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="when">Oct 2022 — Oct 2023</div>
+      <h3>Associate Cyber Security Consultant</h3>
+      <div class="org">TNP Consultancy · Kochi, India</div>
+      <ul>
+        <li>Conducted VAPT assessments on web applications and internal networks, improving client security posture.</li>
+        <li>Collaborated with cross-functional teams to enhance security controls and protocols.</li>
+        <li>Delivered comprehensive reports with clear, actionable remediation guidance.</li>
+      </ul>
+    </div>
+    <div class="tl-item">
+      <div class="when">Aug 2019 — Apr 2022</div>
+      <h3>System Support Engineer</h3>
+      <div class="org">Penta Systems · Kannur, India</div>
+      <ul>
+        <li>Supported network and system troubleshooting with emphasis on endpoint security.</li>
+        <li>Improved system efficiency through effective user support and peripheral management.</li>
+      </ul>
+    </div>
+  </div>
 </section>
 
-<section id="experience">
-<h2>Experience</h2>
-<div class="grid">
-<div class="card">
-<h3>Astra Securities</h3>
-<p>Security Analyst (2023–Present)</p>
-<p>Led 100+ engagements, mentored teams, discovered critical vulnerabilities.</p>
-</div>
-<div class="card">
-<h3>TNP Consultancy</h3>
-<p>Cyber Security Consultant</p>
-</div>
-<div class="card">
-<h3>Penta Systems</h3>
-<p>System Support Engineer</p>
-</div>
-</div>
+<!-- ============ SKILLS ============ -->
+<section id="skills" class="container reveal">
+  <div class="section-head">
+    <div class="kicker">// arsenal</div>
+    <h2>Skills &amp; Tooling</h2>
+    <p>The techniques and tools I reach for across the testing lifecycle.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="card skill-cat">
+      <h3><span class="ic">🌐</span> Web &amp; API</h3>
+      <div class="tags"><span>Burp Suite</span><span>Postman</span><span>OWASP Top 10</span><span>SQLi</span><span>XSS</span><span>SSRF</span><span>Auth Bypass</span></div>
+    </div>
+    <div class="card skill-cat">
+      <h3><span class="ic">📱</span> Mobile</h3>
+      <div class="tags"><span>Frida</span><span>Objection</span><span>Jadx-GUI</span><span>MobSF</span><span>Android</span><span>iOS</span></div>
+    </div>
+    <div class="card skill-cat">
+      <h3><span class="ic">🛡️</span> Network &amp; Infra</h3>
+      <div class="tags"><span>Nessus</span><span>Nmap</span><span>ManageEngine</span><span>Firewall Review</span><span>VA</span></div>
+    </div>
+    <div class="card skill-cat">
+      <h3><span class="ic">⚙️</span> Methodology</h3>
+      <div class="tags"><span>Manual Testing</span><span>Exploit Validation</span><span>Remediation Verification</span><span>Reporting</span><span>Re-testing</span></div>
+    </div>
+  </div>
 </section>
 
-<section id="skills">
-<h2>Skills</h2>
-<div class="skills">
-<span>Burp Suite</span><span>Frida</span><span>MobSF</span><span>Nmap</span>
-<span>Nessus</span><span>Postman</span><span>Jadx</span><span>Objection</span>
-</div>
+<!-- ============ CERTIFICATIONS ============ -->
+<section id="certs" class="container reveal">
+  <div class="section-head">
+    <div class="kicker">// credentials</div>
+    <h2>Certifications</h2>
+    <p>Validated expertise across offensive security, cloud, and defense.</p>
+  </div>
+  <div class="cert-grid">
+    <div class="card cert"><div class="badge">🎖️</div><div><div class="name">CEH</div><div class="issuer">EC-Council</div></div></div>
+    <div class="card cert"><div class="badge">⚔️</div><div><div class="name">eWPTX</div><div class="issuer">INE — Web App Pentester eXtreme</div></div></div>
+    <div class="card cert"><div class="badge">🧪</div><div><div class="name">eJPT</div><div class="issuer">INE — Junior Penetration Tester</div></div></div>
+    <div class="card cert"><div class="badge">🔒</div><div><div class="name">CAP</div><div class="issuer">The SecOps Group — AppSec Practitioner</div></div></div>
+    <div class="card cert"><div class="badge">☁️</div><div><div class="name">CCSP-AWS</div><div class="issuer">Certified Cloud Security Practitioner</div></div></div>
+    <div class="card cert"><div class="badge">🎭</div><div><div class="name">CSEDP</div><div class="issuer">Social Engineering Defense Practitioner</div></div></div>
+    <div class="card cert"><div class="badge">🖥️</div><div><div class="name">MCSE</div><div class="issuer">Microsoft Certified Solution Expert</div></div></div>
+  </div>
 </section>
 
-<section id="research">
-<h2>Research & CVEs</h2>
-<div class="grid">
-<div class="card">
-<h3>CVE-2023-47380</h3>
-<a class="link-btn" href="https://nvd.nist.gov/vuln/detail/CVE-2023-47380">View Details →</a>
-</div>
-<div class="card">
-<h3>CVE-2023-47379</h3>
-<a class="link-btn" href="https://nvd.nist.gov/vuln/detail/CVE-2023-47379">View Details →</a>
-</div>
-<div class="card">
-<h3>CVE-2023-49337</h3>
-<a class="link-btn" href="https://nvd.nist.gov/vuln/detail/CVE-2023-49337">View Details →</a>
-</div>
-</div>
+<!-- ============ RESEARCH / CVEs ============ -->
+<section id="research" class="container reveal">
+  <div class="section-head">
+    <div class="kicker">// disclosures</div>
+    <h2>Research &amp; CVEs</h2>
+    <p>Published vulnerabilities credited in the National Vulnerability Database.</p>
+  </div>
+  <div class="grid-3">
+    <div class="card cve">
+      <span class="tag">CVE · 2023</span>
+      <h3>CVE-2023-47380</h3>
+      <p>Disclosed vulnerability credited and published in the NVD.</p>
+      <a class="link" href="https://nvd.nist.gov/vuln/detail/CVE-2023-47380" target="_blank" rel="noopener">View on NVD &rarr;</a>
+    </div>
+    <div class="card cve">
+      <span class="tag">CVE · 2023</span>
+      <h3>CVE-2023-47379</h3>
+      <p>Disclosed vulnerability credited and published in the NVD.</p>
+      <a class="link" href="https://nvd.nist.gov/vuln/detail/CVE-2023-47379" target="_blank" rel="noopener">View on NVD &rarr;</a>
+    </div>
+    <div class="card cve">
+      <span class="tag">CVE · 2023</span>
+      <h3>CVE-2023-49337</h3>
+      <p>Disclosed vulnerability credited and published in the NVD.</p>
+      <a class="link" href="https://nvd.nist.gov/vuln/detail/CVE-2023-49337" target="_blank" rel="noopener">View on NVD &rarr;</a>
+    </div>
+  </div>
 </section>
 
-<section id="contact">
-<h2>Contact</h2>
-<div class="card">
-<p>Email: ramshath2021@outlook.com</p>
-<p>Phone: +91 9744498761</p>
-<p>LinkedIn: linkedin.com/in/ramshath</p>
-<a class="cta" href="assets/RamshathMM.pdf">Download CV</a>
-</div>
+<!-- ============ WRITING / PUBLICATIONS ============ -->
+<section id="writing" class="container reveal">
+  <div class="section-head">
+    <div class="kicker">// publications</div>
+    <h2>Writing &amp; Research</h2>
+    <p>Deep-dives into real-world attack chains, detection, and mitigation.</p>
+  </div>
+  <div class="grid-3">
+    <div class="card pub">
+      <div class="meta">SSRF · CLOUD</div>
+      <h3>The Cat-and-Mouse Game of a Cloud Metadata SSRF Vulnerability</h3>
+      <p>Attack, detection, and mitigation of an SSRF reaching cloud instance metadata.</p>
+      <a class="link" href="https://medium.com/system-weakness/the-cat-and-mouse-game-of-a-cloud-metadata-ssrf-vulnerability-6efbb26e216a" target="_blank" rel="noopener">Read article &rarr;</a>
+    </div>
+    <div class="card pub">
+      <div class="meta">XSS · RCE</div>
+      <h3>Beyond the Popup: Turning Stored XSS into Remote Code Execution</h3>
+      <p>Chaining a stored XSS via SVG upload into full remote code execution.</p>
+      <a class="link" href="https://medium.com/@ramshath1999/beyond-the-popup-turning-stored-xss-into-remote-code-execution-483839d06f58" target="_blank" rel="noopener">Read article &rarr;</a>
+    </div>
+    <div class="card pub">
+      <div class="meta">MOBILE · PRIVACY</div>
+      <h3>Bypassing WhatsApp's View Once Media Restriction</h3>
+      <p>A security analysis of how the view-once media feature could be bypassed.</p>
+      <a class="link" href="https://medium.com/@ramshath1999/how-i-discovered-a-bypass-in-whatsapps-view-once-feature-aea3bdf6405a" target="_blank" rel="noopener">Read article &rarr;</a>
+    </div>
+    <div class="card pub">
+      <div class="meta">WEB CACHE</div>
+      <h3>Web Cache Poisoning via URL Normalization Mismatch</h3>
+      <p>A backslash-injection case study exploiting normalization differences for cache poisoning.</p>
+      <a class="link" href="https://medium.com/@ramshath1999" target="_blank" rel="noopener">Read on Medium &rarr;</a>
+    </div>
+  </div>
 </section>
 
+<!-- ============ RECOGNITIONS ============ -->
+<section id="recognitions" class="container reveal">
+  <div class="section-head">
+    <div class="kicker">// hall of fame</div>
+    <h2>Acknowledged By</h2>
+    <p>Recognized by 20+ organizations for responsible disclosure, including:</p>
+  </div>
+  <div class="brands">
+    <span>Apple</span><span>Nokia</span><span>Lenovo</span><span>LG</span><span>Philips</span><span>+ 15 more</span>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="container reveal">
+  <div class="section-head">
+    <div class="kicker">// get in touch</div>
+    <h2>Let's Work Together</h2>
+    <p>Open to security engagements, research collaboration, and full-time roles.</p>
+  </div>
+  <div class="contact-wrap">
+    <ul class="contact-list">
+      <li><a href="mailto:ramshath2021@outlook.com"><span class="ic">✉️</span><span><span class="k">Email</span><br><span class="v">ramshath2021@outlook.com</span></span></a></li>
+      <li><a href="tel:+919744498761"><span class="ic">📞</span><span><span class="k">Phone</span><br><span class="v">+91 97444 98761</span></span></a></li>
+      <li><a href="https://linkedin.com/in/ramshath" target="_blank" rel="noopener"><span class="ic">💼</span><span><span class="k">LinkedIn</span><br><span class="v">linkedin.com/in/ramshath</span></span></a></li>
+      <li><a href="https://medium.com/@ramshath1999" target="_blank" rel="noopener"><span class="ic">✍️</span><span><span class="k">Medium</span><br><span class="v">@ramshath1999</span></span></a></li>
+    </ul>
+    <div class="card contact-cta">
+      <h3>Need a pentest or security review?</h3>
+      <p>Let's find the vulnerabilities before attackers do.</p>
+      <a class="btn btn-primary" href="mailto:ramshath2021@outlook.com">Email me &rarr;</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
 <footer>
-<p>© 2026 Ramshath | Built for impact ⚡</p>
+  <div class="container">
+    <div class="socials">
+      <a href="mailto:ramshath2021@outlook.com" aria-label="Email">✉️</a>
+      <a href="https://linkedin.com/in/ramshath" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+      <a href="https://medium.com/@ramshath1999" target="_blank" rel="noopener" aria-label="Medium">M</a>
+    </div>
+    <p>© <span id="year"></span> Ramshath M M · Offensive Security Engineer · Built for impact ⚡</p>
+  </div>
 </footer>
 
 <script>
-// typing effect
-const roles = [
-"Offensive Security Engineer",
-"Bug Bounty Hunter",
-"CVE Contributor",
-"Pentester"
-];
-let i = 0, j = 0, current = '', isDeleting = false;
-function type() {
-  current = roles[i];
-  document.getElementById('typing').textContent = current.substring(0, j);
-  if(!isDeleting && j < current.length) j++;
-  else if(isDeleting && j > 0) j--;
+// Year
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Typing effect
+const roles = ["Offensive Security Engineer","Penetration Tester","Bug Bounty Hunter","CVE Contributor","VAPT Specialist"];
+let ri=0, ci=0, deleting=false;
+const el = document.getElementById('typing');
+function type(){
+  const word = roles[ri];
+  el.textContent = word.substring(0, ci);
+  if(!deleting && ci < word.length){ ci++; setTimeout(type, 85); }
+  else if(deleting && ci > 0){ ci--; setTimeout(type, 40); }
   else {
-    isDeleting = !isDeleting;
-    if(!isDeleting) i = (i+1)%roles.length;
+    if(!deleting){ deleting = true; setTimeout(type, 1500); }
+    else { deleting = false; ri = (ri+1)%roles.length; setTimeout(type, 300); }
   }
-  setTimeout(type, isDeleting ? 50 : 100);
 }
 type();
 
-// scroll animation
-const sections = document.querySelectorAll("section");
-window.addEventListener("scroll", () => {
-  sections.forEach(sec => {
-    const top = sec.getBoundingClientRect().top;
-    if(top < window.innerHeight - 100) sec.classList.add("visible");
-  });
-});
+// Scroll reveal
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(s=>io.observe(s));
+
+// Mobile menu
+const burger = document.getElementById('burger');
+const navLinks = document.getElementById('navLinks');
+burger.addEventListener('click', ()=> navLinks.classList.toggle('open'));
+navLinks.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navLinks.classList.remove('open')));
 </script>
 
 </body>
