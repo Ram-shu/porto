@@ -783,6 +783,36 @@ navLinks.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navL
   },{threshold:0.4});
   bootObs.observe(document.getElementById('terminal'));
 })();
+
+// ---------- Scramble / decode effect on section headings ----------
+(function(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const glyphs = '!<>-_\\/[]{}—=+*^?#01';
+  function scramble(el){
+    const text = el.dataset.text || el.textContent;
+    el.dataset.text = text;
+    const len = text.length;
+    let frame = 0;
+    const total = len * 2 + 16;            // resolve left-to-right over time
+    const id = setInterval(()=>{
+      let out = '';
+      for(let i=0;i<len;i++){
+        const ch = text[i];
+        if(ch === ' '){ out += ' '; continue; }
+        const start = i * 1.6;
+        if(frame >= start + 8) out += ch;            // settled
+        else if(frame >= start) out += glyphs[Math.floor(Math.random()*glyphs.length)];
+        else out += glyphs[Math.floor(Math.random()*glyphs.length)];
+      }
+      el.textContent = out;
+      if(++frame > total){ clearInterval(id); el.textContent = text; }
+    }, 32);
+  }
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ scramble(e.target); obs.unobserve(e.target); } });
+  },{threshold:0.6});
+  document.querySelectorAll('.section-head h2').forEach(h=>obs.observe(h));
+})();
 </script>
 
 </body>
