@@ -259,6 +259,32 @@ footer .socials a:hover{background:var(--accent);color:var(--bg);transform:trans
 /* SVG icon sizing */
 .svg-ic{width:1em;height:1em;vertical-align:-.125em;fill:currentColor}
 
+/* ---------- Interactive terminal ---------- */
+.term-wrap{max-width:840px;margin:0 auto}
+.terminal{background:#070e1a;border:1px solid var(--border-strong);border-radius:14px;overflow:hidden;
+  box-shadow:var(--shadow);font-family:'JetBrains Mono',monospace}
+.term-bar{display:flex;align-items:center;gap:8px;padding:11px 16px;background:rgba(56,189,248,.06);border-bottom:1px solid var(--border)}
+.term-bar .d{width:12px;height:12px;border-radius:50%}
+.term-bar .r{background:#ff5f57}.term-bar .y{background:#febc2e}.term-bar .g{background:#28c840}
+.term-bar .title{margin-left:10px;font-size:12.5px;color:var(--muted);letter-spacing:.3px}
+.term-body{padding:18px 18px 16px;height:400px;overflow-y:auto;font-size:13.5px;line-height:1.75;cursor:text}
+.term-body::-webkit-scrollbar{width:8px}
+.term-body::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:4px}
+.term-line{white-space:pre-wrap;word-break:break-word;color:var(--text)}
+.term-line .muted{color:var(--muted)}
+.term-line .ac{color:var(--accent)}
+.term-line .ac2{color:var(--accent-2)}
+.term-line .dn{color:var(--danger)}
+.term-line .yl{color:#febc2e}
+.term-line a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.term-prompt{color:var(--accent-2)}
+.term-prompt .path{color:var(--accent)}
+.term-inline{display:flex;align-items:baseline;gap:9px;margin-top:2px}
+.term-inline input{flex:1;background:transparent;border:0;outline:0;color:var(--text);
+  font-family:inherit;font-size:13.5px;padding:0;caret-color:var(--accent-2)}
+.term-hint{margin-top:14px;text-align:center;color:var(--muted);font-size:13px;font-family:'JetBrains Mono',monospace}
+.term-hint b{color:var(--accent)}
+
 /* Responsive */
 @media(max-width:880px){
   .hero{grid-template-columns:1fr;text-align:center;padding-top:56px}
@@ -299,6 +325,7 @@ footer .socials a:hover{background:var(--accent);color:var(--bg);transform:trans
     <a href="#top" class="logo">RAMSHATH<span class="dot">.</span></a>
     <div class="nav-links" id="navLinks">
       <a href="#about">About</a>
+      <a href="#terminal">Terminal</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
       <a href="#certs">Certifications</a>
@@ -344,6 +371,30 @@ footer .socials a:hover{background:var(--accent);color:var(--bg);transform:trans
     <div class="card stat"><div class="num">20+</div><div class="label">Orgs Acknowledged</div></div>
     <div class="card stat"><div class="num">3</div><div class="label">Published CVEs</div></div>
     <div class="card stat"><div class="num">50+</div><div class="label">HTB / THM Machines</div></div>
+  </div>
+</section>
+
+<!-- ============ INTERACTIVE TERMINAL ============ -->
+<section id="terminal" class="container reveal">
+  <div class="section-head">
+    <div class="kicker">// shell</div>
+    <h2>Try the Terminal</h2>
+    <p>Explore my profile the way I work — from a command line. Type <code class="mono accent">help</code> to begin.</p>
+  </div>
+  <div class="term-wrap">
+    <div class="terminal">
+      <div class="term-bar">
+        <span class="d r"></span><span class="d y"></span><span class="d g"></span>
+        <span class="title">visitor@ramshath: ~ — zsh</span>
+      </div>
+      <div class="term-body" id="termBody">
+        <div class="term-inline" id="termInputRow">
+          <span class="term-prompt">visitor@ramshath:<span class="path">~</span>$</span>
+          <input id="termInput" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input">
+        </div>
+      </div>
+    </div>
+    <div class="term-hint">Tip: try <b>whoami</b>, <b>skills</b>, <b>cve</b>, <b>sudo hire-me</b> &nbsp;·&nbsp; <b>↑/↓</b> for history</div>
   </div>
 </section>
 
@@ -601,6 +652,135 @@ const burger = document.getElementById('burger');
 const navLinks = document.getElementById('navLinks');
 burger.addEventListener('click', ()=> navLinks.classList.toggle('open'));
 navLinks.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> navLinks.classList.remove('open')));
+
+// ---------- Interactive terminal ----------
+(function(){
+  const body = document.getElementById('termBody');
+  const input = document.getElementById('termInput');
+  const row = document.getElementById('termInputRow');
+  if(!body || !input) return;
+  const history = []; let hIdx = -1; let booted = false;
+
+  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  function out(html){
+    const div = document.createElement('div');
+    div.className = 'term-line';
+    div.innerHTML = html;
+    body.insertBefore(div, row);
+    body.scrollTop = body.scrollHeight;
+  }
+  function echo(cmd){
+    out('<span class="term-prompt">visitor@ramshath:<span class="path">~</span>$</span> ' + esc(cmd));
+  }
+
+  const commands = {
+    help(){return [
+      '<span class="ac2">Available commands:</span>',
+      '  <span class="ac">whoami</span>       who I am',
+      '  <span class="ac">about</span>        professional summary',
+      '  <span class="ac">skills</span>       tools &amp; techniques',
+      '  <span class="ac">experience</span>   work history',
+      '  <span class="ac">certs</span>        certifications',
+      '  <span class="ac">cve</span>          published CVEs',
+      '  <span class="ac">writing</span>      research &amp; blog posts',
+      '  <span class="ac">badges</span>       recognitions',
+      '  <span class="ac">contact</span>      how to reach me',
+      '  <span class="ac">cv</span>           download my resume',
+      '  <span class="ac">social</span>       linkedin / medium',
+      '  <span class="ac">clear</span>        clear the screen',
+      '  <span class="muted">try also: ls, banner, date, sudo hire-me</span>'
+    ].join('\n');},
+    whoami(){return 'ramshath — <span class="ac">Information Security Analyst</span> &amp; Offensive Security Engineer.\nKerala, India. I break applications before attackers do.';},
+    about(){return 'Hands-on across <span class="ac">Web, API, Mobile &amp; Network</span> penetration testing in enterprise\nenvironments. Active in vulnerability research, CVE publication, and bug bounty.\nLed 100+ VAPT engagements; acknowledged by 20+ organizations.';},
+    skills(){return [
+      '<span class="ac2">web/api  </span> Burp Suite · Postman · OWASP Top 10 · SQLi · XSS · SSRF · Auth Bypass',
+      '<span class="ac2">mobile   </span> Frida · Objection · Jadx-GUI · MobSF · Android · iOS',
+      '<span class="ac2">network  </span> Nessus · Nmap · ManageEngine · Firewall Review',
+      '<span class="ac2">method   </span> Manual Testing · Exploit Validation · Remediation · Reporting'
+    ].join('\n');},
+    experience(){return [
+      '<span class="ac">Nov 2023 – Present</span>  Information Security Analyst @ Astra Securities',
+      '<span class="ac">Oct 2022 – Oct 2023</span> Associate Cyber Security Consultant @ TNP Consultancy',
+      '<span class="ac">Aug 2019 – Apr 2022</span> System Support Engineer @ Penta Systems',
+      '<span class="muted">scroll up to #experience for full details</span>'
+    ].join('\n');},
+    exp(){return this.experience();},
+    certs(){return 'CEH · eWPTX · eJPT · CAP · CCSP-AWS · CSEDP · MCSE';},
+    certifications(){return this.certs();},
+    cve(){return [
+      '<span class="dn">[!]</span> CVE-2023-47380  <a href="https://nvd.nist.gov/vuln/detail/CVE-2023-47380" target="_blank" rel="noopener">nvd.nist.gov ↗</a>',
+      '<span class="dn">[!]</span> CVE-2023-47379  <a href="https://nvd.nist.gov/vuln/detail/CVE-2023-47379" target="_blank" rel="noopener">nvd.nist.gov ↗</a>',
+      '<span class="dn">[!]</span> CVE-2023-49337  <a href="https://nvd.nist.gov/vuln/detail/CVE-2023-49337" target="_blank" rel="noopener">nvd.nist.gov ↗</a>'
+    ].join('\n');},
+    cves(){return this.cve();},
+    writing(){return [
+      '- Cloud Metadata SSRF: Attack, Detection &amp; Mitigation  <a href="https://medium.com/system-weakness/the-cat-and-mouse-game-of-a-cloud-metadata-ssrf-vulnerability-6efbb26e216a" target="_blank" rel="noopener">read ↗</a>',
+      '- Stored XSS → Remote Code Execution via SVG  <a href="https://medium.com/@ramshath1999/beyond-the-popup-turning-stored-xss-into-remote-code-execution-483839d06f58" target="_blank" rel="noopener">read ↗</a>',
+      '- Bypassing WhatsApp View-Once Media  <a href="https://medium.com/@ramshath1999/how-i-discovered-a-bypass-in-whatsapps-view-once-feature-aea3bdf6405a" target="_blank" rel="noopener">read ↗</a>',
+      '- Web Cache Poisoning via URL Normalization  <a href="https://medium.com/@ramshath1999" target="_blank" rel="noopener">read ↗</a>'
+    ].join('\n');},
+    blog(){return this.writing();},
+    badges(){return 'Acknowledged by <span class="ac">Apple · Nokia · Lenovo · LG · Philips</span> + 15 more.';},
+    contact(){return [
+      'email     <a href="mailto:ramshath2021@outlook.com">ramshath2021@outlook.com</a>',
+      'phone     +91 97444 98761',
+      'linkedin  <a href="https://linkedin.com/in/ramshath" target="_blank" rel="noopener">linkedin.com/in/ramshath</a>',
+      'medium    <a href="https://medium.com/@ramshath1999" target="_blank" rel="noopener">@ramshath1999</a>'
+    ].join('\n');},
+    social(){return 'linkedin  <a href="https://linkedin.com/in/ramshath" target="_blank" rel="noopener">linkedin.com/in/ramshath</a>\nmedium    <a href="https://medium.com/@ramshath1999" target="_blank" rel="noopener">@ramshath1999</a>';},
+    cv(){window.open('assets/RamshathMM.pdf','_blank'); return '<span class="ac2">opening</span> RamshathMM.pdf …';},
+    resume(){return this.cv();},
+    ls(){return '<span class="ac">about.txt  skills.json  experience.log  cve/  writing/  contact.vcf  RamshathMM.pdf</span>';},
+    date(){return new Date().toString();},
+    banner(){return [
+      '<span class="ac"> ____  ____  __  __ ____  _   _    _  _____ _   _ </span>',
+      '<span class="ac">|  _ \\|  _ \\|  \\/  / ___|| | | |  / \\|_   _| | | |</span>',
+      '<span class="ac">| |_) | |_) | |\\/| \\___ \\| |_| | / _ \\ | | | |_| |</span>',
+      '<span class="ac">|  _ <|  __/| |  | |___) |  _  |/ ___ \\| | |  _  |</span>',
+      '<span class="ac">|_| \\_\\_|   |_|  |_|____/|_| |_/_/   \\_\\_| |_| |_|</span>',
+      '<span class="muted">Offensive Security Engineer · type \'help\'</span>'
+    ].join('\n');},
+    clear(){body.querySelectorAll('.term-line').forEach(n=>n.remove()); return null;},
+    'sudo hire-me'(){return '<span class="ac2">[sudo] access granted.</span> Redirecting to contact…';},
+    sudo(){return '<span class="dn">visitor is not in the sudoers file.</span> This incident will be reported. 😏\n<span class="muted">(try: sudo hire-me)</span>';},
+    exit(){return '<span class="muted">Nice try — there is no escape. Type \'help\'.</span>';},
+    nmap(){return 'Starting Nmap…\n<span class="muted">PORT     STATE SERVICE</span>\n22/tcp   open  ssh\n80/tcp   open  http  <span class="ac">(this portfolio)</span>\n443/tcp  open  https\n<span class="muted">Host is up. Pentest responsibly. 🛡️</span>';}
+  };
+
+  function run(raw){
+    const cmd = raw.trim();
+    echo(raw);
+    if(!cmd) return;
+    history.push(cmd); hIdx = history.length;
+    const lower = cmd.toLowerCase();
+    let res;
+    if(lower === 'sudo hire-me' || lower === 'sudo hire me'){ res = commands['sudo hire-me'](); setTimeout(()=>{location.href='mailto:ramshath2021@outlook.com';}, 700); }
+    else if(commands[lower]){ res = commands[lower](); }
+    else if(lower.startsWith('echo ')){ res = esc(cmd.slice(5)); }
+    else { res = '<span class="dn">command not found:</span> ' + esc(cmd) + '  <span class="muted">— type \'help\'</span>'; }
+    if(res !== null && res !== undefined) out('<span class="term-out">'+res+'</span>');
+  }
+
+  input.addEventListener('keydown', e=>{
+    if(e.key === 'Enter'){ run(input.value); input.value=''; }
+    else if(e.key === 'ArrowUp'){ if(hIdx>0){ hIdx--; input.value=history[hIdx]||''; } e.preventDefault(); }
+    else if(e.key === 'ArrowDown'){ if(hIdx<history.length-1){ hIdx++; input.value=history[hIdx]||''; } else { hIdx=history.length; input.value=''; } e.preventDefault(); }
+  });
+  body.addEventListener('click', ()=> input.focus());
+
+  // Boot banner the first time the terminal scrolls into view
+  const bootObs = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting && !booted){
+        booted = true;
+        out('<span class="term-out muted">Welcome to ramshath\'s shell. Type <span class="ac">help</span> to list commands.</span>');
+        out(commands.whoami().split('\n').map(l=>'<span class="term-out">'+l+'</span>').join('\n'));
+        bootObs.disconnect();
+      }
+    });
+  },{threshold:0.4});
+  bootObs.observe(document.getElementById('terminal'));
+})();
 </script>
 
 </body>
